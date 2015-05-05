@@ -27,6 +27,16 @@
   <script type='text/jsx'>
 
 
+    var HowArtThou = React.createClass({
+      render: function() {
+        return (
+          <div className="">
+            <h3>How is your day?</h3>
+          </div>
+        )
+      }
+    });
+
     var MessageBox = React.createClass({
       getInitialState: function() {
         return {
@@ -34,6 +44,13 @@
           statement: 'Hello There!'
         }
       },
+
+      getPropTypes: function() {
+        return {
+          date : React.PropTypes.string.isRequired
+        }
+      },
+
       render: function() {
         var check_visibility = {
           show: this.state.isVisible ? 'block' : 'none'
@@ -42,13 +59,19 @@
         return (
           <div className='jumbotron' style={check_visibility}>
             <h1>{this.state.statement}</h1>
+            <p>
+              {this.props.date}
+            </p>
+            <HowArtThou />
           </div>
         )
       }
     });
 
+
+
     var renderComponent = React.render(
-      <MessageBox />,
+      <MessageBox date={new Date().getTime()}/>,
       document.getElementById('app')
     )
   </script>
