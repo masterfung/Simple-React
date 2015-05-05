@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>The HTML5 Herald</title>
+  <meta name="description" content="Message Box">
+  <meta name="author" content="@masterfung Tsung Hung">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+
+  <!--[if lt IE 9]>
+  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+</head>
+
+<body>
+
+  <div id="app">
+
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.2/react-with-addons.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.2/JSXTransformer.js"></script>
+
+  <script type='text/jsx'>
+
+
+    var MessageBox = React.createClass({
+      getInitialState: function() {
+        return {
+          isVisible: true,
+          statement: 'Hello There!'
+        }
+      },
+      render: function() {
+        var check_visibility = {
+          show: this.state.isVisible ? 'block' : 'none'
+
+        }
+        return (
+          <div className='jumbotron' style={check_visibility}>
+            <h1>{this.state.statement}</h1>
+          </div>
+        )
+      }
+    });
+
+    var renderComponent = React.render(
+      <MessageBox />,
+      document.getElementById('app')
+    )
+  </script>
+</body>
+</html>
