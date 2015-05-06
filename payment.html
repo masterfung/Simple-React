@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Payment Calculator</title>
+  <meta name="description" content="Payment Calculator">
+  <meta name="author" content="@masterfung Tsung Hung">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+
+  <!--[if lt IE 9]>
+  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+
+</head>
+
+<body>
+
+  <div id="app">
+
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.2/react-with-addons.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.2/JSXTransformer.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.8.0/lodash.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment-with-locales.min.js"></script>
+
+  <script type='text/jsx'>
+
+    var App = React.createClass({
+      mixins: [React.addons.LinkedStateMixin],
+      getInitialState: function() {
+          return {
+            total: 0
+          }
+      },
+
+      render: function() {
+        return (
+          <div className="col-md-3 col-md-offset-3">
+            <h1 className="text-center">Welcome to Simple Payment Calculator</h1>
+            <input type="text" className="form-control"  placeholder='Enter a value' />
+            {this.state.total   }
+          </div>
+        )
+      }
+    })
+
+    var renderComponent = React.render(
+      <App />,
+      document.getElementById('app')
+    )
+
+  </script>
+</body>
+</html>
