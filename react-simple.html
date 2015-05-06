@@ -23,6 +23,7 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.2/react-with-addons.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.2/JSXTransformer.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment-with-locales.min.js"></script>
 
   <script type='text/jsx'>
 
@@ -30,7 +31,7 @@
     var HowArtThou = React.createClass({
       render: function() {
         return (
-          <div className="">
+          <div>
             <h3 className="text-center">How is your day?</h3>
           </div>
         )
@@ -46,7 +47,7 @@
 
       render: function() {
         return (
-          <div className="">
+          <div>
             {this.props.echo}
           </div>
         )
@@ -75,11 +76,12 @@
       },
 
       handleAction: function(e) {
-        var userEntered = this.refs.userInput.getDOMNode().value
+        e.preventDefault();
+        var userEntered = React.findDOMNode(this.refs.userInput).value;
         var newMessage = this.state.echos.concat([userEntered]);
         this.setState({
           echos: newMessage
-        })
+        });
       },
 
       render: function() {
@@ -87,19 +89,38 @@
           return <h4 key={index}><Words echo={echo}/></h4>;
         });
 
-        var check_visibility = {
-          show: this.state.isVisible ? 'block' : 'none'
+        var styles = {
+          check_visibility: {
+            show: this.state.isVisible ? 'block' : 'none'
+          },
+          inline_style: {
+            float: "right"
+          },
+          inline_contianer: {
+            overflow: "hidden",
+            paddingRight: "0.5em"
+          },
+          max_width: {
+            width: "100%"
+          }
+        };
 
-        }
+
         return (
-          <div className='jumbotron' style={check_visibility}>
+          <div className='jumbotron' style={styles.check_visibility}>
             <h1 className='text-center'>{this.state.statement}</h1>
             <p className="text-center">
               {this.props.date}
             </p>
             <HowArtThou />
-            <input className="form-control" type="text" ref="userInput" placeholder="Enter Awesomeness Here" />{' '}
-            <button className="btn btn-primary" type="submit" onClick={this.handleAction}>Add</button>
+
+            <form>
+              <input className="btn btn-primary" type="submit" onClick={this.handleAction} value="Submit" style={{float: "right"}} />
+              <div style={{overflow: "hidden", paddingRight: ".5em"}}>
+                <input className="form-control" type="text" ref="userInput" placeholder="Enter Awesomeness Here" style={{width: "100%"}} />
+               </div>
+            </form>
+            
             {messages}
           </div>
         )
@@ -109,7 +130,7 @@
 
 
     var renderComponent = React.render(
-      <MessageBox date={new Date().getTime()}/>,
+      <MessageBox date={moment().format('MMMM Do YYYY, h:mm:ss a')}/>,
       document.getElementById('app')
     )
   </script>
