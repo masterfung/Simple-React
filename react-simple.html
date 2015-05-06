@@ -13,6 +13,7 @@
   <!--[if lt IE 9]>
   <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
   <![endif]-->
+
 </head>
 
 <body>
@@ -23,10 +24,10 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.2/react-with-addons.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.2/JSXTransformer.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.8.0/lodash.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment-with-locales.min.js"></script>
 
   <script type='text/jsx'>
-
 
     var HowArtThou = React.createClass({
       render: function() {
@@ -45,10 +46,15 @@
         }
       },
 
+      handleDelete: function(e) {
+        this.props.onDelete(this.props.echo)
+      },
+
       render: function() {
         return (
           <div>
-            {this.props.echo}
+            {this.props.echo}{' '}
+            <button className="btn btn-danger" onClick={this.handleDelete}>X</button>
           </div>
         )
       }
@@ -84,10 +90,17 @@
         });
       },
 
+      deleteMessage: function(echo) {
+        var newEchos = _.without(this.state.echos, echo);
+        this.setState({
+          echos: newEchos
+        })
+      },
+
       render: function() {
         var messages = this.state.echos.map(function(echo, index) {
-          return <h4 key={index}><Words echo={echo}/></h4>;
-        });
+          return <h4 key={index}><Words echo={echo} onDelete={this.deleteMessage}/></h4>;
+        }.bind(this));
 
         var styles = {
           check_visibility: {
@@ -120,7 +133,7 @@
                 <input className="form-control" type="text" ref="userInput" placeholder="Enter Awesomeness Here" style={{width: "100%"}} />
                </div>
             </form>
-            
+
             {messages}
           </div>
         )
@@ -133,6 +146,7 @@
       <MessageBox date={moment().format('MMMM Do YYYY, h:mm:ss a')}/>,
       document.getElementById('app')
     )
+
   </script>
 </body>
 </html>
