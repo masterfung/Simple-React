@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
 
-  <title>The HTML5 Herald</title>
+  <title>Message Box</title>
   <meta name="description" content="Message Box">
   <meta name="author" content="@masterfung Tsung Hung">
 
@@ -31,7 +31,23 @@
       render: function() {
         return (
           <div className="">
-            <h3>How is your day?</h3>
+            <h3 className="text-center">How is your day?</h3>
+          </div>
+        )
+      }
+    });
+
+    var Words = React.createClass({
+      getPropTypes: function() {
+        return {
+          echo : React.PropTypes.string.isRequired
+        }
+      },
+
+      render: function() {
+        return (
+          <div className="">
+            {this.props.echo}
           </div>
         )
       }
@@ -41,7 +57,14 @@
       getInitialState: function() {
         return {
           isVisible: true,
-          statement: 'Hello There!'
+          statement: 'Hello There!',
+          echos: ["There are great liability to great powers!",
+            "I hear whispers of power and efficiency!",
+            "How can there be a giant zebra in this room? We need two!",
+            "Eating veggies will insure world peace!",
+            "Hopes of the future can easily be seen from the eyes of now!",
+            "Smile be WowWow!"
+          ]
         }
       },
 
@@ -51,18 +74,33 @@
         }
       },
 
+      handleAction: function(e) {
+        var userEntered = this.refs.userInput.getDOMNode().value
+        var newMessage = this.state.echos.concat([userEntered]);
+        this.setState({
+          echos: newMessage
+        })
+      },
+
       render: function() {
+        var messages = this.state.echos.map(function(echo, index) {
+          return <h4 key={index}><Words echo={echo}/></h4>;
+        });
+
         var check_visibility = {
           show: this.state.isVisible ? 'block' : 'none'
 
         }
         return (
           <div className='jumbotron' style={check_visibility}>
-            <h1>{this.state.statement}</h1>
-            <p>
+            <h1 className='text-center'>{this.state.statement}</h1>
+            <p className="text-center">
               {this.props.date}
             </p>
             <HowArtThou />
+            <input className="form-control" type="text" ref="userInput" placeholder="Enter Awesomeness Here" />{' '}
+            <button className="btn btn-primary" type="submit" onClick={this.handleAction}>Add</button>
+            {messages}
           </div>
         )
       }
